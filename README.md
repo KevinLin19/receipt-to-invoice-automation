@@ -57,12 +57,12 @@ Download Invoice (PDF)
 ## Project Structure
 project-root/
 │
-├── main.py
-├── ocr_module.py
-├── automation_module.py
-├── utils.py
-├── requirements.txt
-└── README.md
+├── main.py   
+├── ocr_module.py   
+├── automation_module.py   
+├── utils.py   
+├── requirements.txt   
+└── README.md   
 
 
 ---
