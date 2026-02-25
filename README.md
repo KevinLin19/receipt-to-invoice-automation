@@ -21,17 +21,17 @@ The goal is to reduce manual effort and demonstrate a real-world automation work
 
 ## System Architecture
 
-Receipt Image(s)
-        ↓
-Barcode Detection (OCR)
-        ↓
-Extract Identifier
-        ↓
-Automated Login (Selenium)
-        ↓
-Invoice Retrieval
-        ↓
-Download Invoice (PDF)
+Receipt Image(s)   
+        ↓   
+Barcode Detection (OCR)   
+        ↓   
+Extract Identifier   
+        ↓   
+Automated Login (Selenium)   
+        ↓   
+Invoice Retrieval   
+        ↓   
+Download Invoice (PDF)   
 
 ---
 
@@ -55,8 +55,9 @@ Download Invoice (PDF)
 ---
 
 ## Project Structure
-project-root/
-│
+
+project-root/   
+│   
 ├── main.py   
 ├── ocr_module.py   
 ├── automation_module.py   
