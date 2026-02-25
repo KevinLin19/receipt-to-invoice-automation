@@ -21,17 +21,23 @@ The goal is to reduce manual effort and demonstrate a real-world automation work
 
 ## System Architecture
 
-Receipt Image(s)   
-        ↓   
-Barcode Detection (OCR)   
-        ↓   
-Extract Identifier   
-        ↓   
-Automated Login (Selenium)   
-        ↓   
-Invoice Retrieval   
-        ↓   
-Download Invoice (PDF)   
+1. **Receipt Image(s)**  
+   → Input photos of purchase receipts  
+
+2. **Barcode Detection (OCR)**  
+   → Extract barcode data from the image  
+
+3. **Identifier Extraction**  
+   → Parse receipt number or transaction ID  
+
+4. **Automated Login (Selenium)**  
+   → Authenticate on the web portal  
+
+5. **Invoice Retrieval**  
+   → Locate matching invoice  
+
+6. **Invoice Download (PDF)**  
+   → Save invoice locally
 
 ---
 
