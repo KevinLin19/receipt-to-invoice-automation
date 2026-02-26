@@ -1,0 +1,22 @@
+{
+  "DemoCompany1": {
+    "name": "Martin",
+    "vat": "FR40732829320",
+    "siret": "73282932000074",
+    "companyName": "DemoTech Solutions",
+    "address": "12 avenue des Tests",
+    "zipCode": "75015",
+    "city": "Paris",
+    "contactEmail": "contact@demotech-solutions.com"
+  },
+  "DemoCompany2": {
+    "name": "Dubois",
+    "vat": "FR52784596321",
+    "siret": "84596321000058",
+    "companyName": "Retail Performance SAS",
+    "address": "8 rue de l'Innovation",
+    "zipCode": "69003",
+    "city": "Lyon",
+    "contactEmail": "contact@retail-performance.fr"
+  }
+}

@@ -22,19 +22,19 @@ The goal is to reduce manual effort and demonstrate a real-world automation work
 ## System Architecture
 
 1. **Receipt Image(s)**  
-   → Input photos of purchase receipts  
+   → Input photos of purchase receipts
 
 2. **Barcode Detection (OCR)**  
-   → Extract barcode data from the image  
+   → Extract barcode data from the image
 
 3. **Identifier Extraction**  
-   → Parse receipt number or transaction ID  
+   → Parse receipt number or transaction ID
 
 4. **Automated Login (Selenium)**  
-   → Authenticate on the web portal  
+   → Authenticate on the web portal
 
 5. **Invoice Retrieval**  
-   → Locate matching invoice  
+   → Locate matching invoice
 
 6. **Invoice Download (PDF)**  
    → Save invoice locally
@@ -62,15 +62,14 @@ The goal is to reduce manual effort and demonstrate a real-world automation work
 
 ## Project Structure
 
-project-root/   
-│   
-├── main.py   
-├── ocr_module.py   
-├── automation_module.py   
-├── utils.py   
-├── requirements.txt   
-└── README.md   
-
+project-root/  
+│  
+├── main.py  
+├── ocr_module.py  
+├── automation_module.py  
+├── utils.py  
+├── requirements.txt  
+└── README.md
 
 ---
 
@@ -80,8 +79,8 @@ project-root/
    python -m venv .venv
 
 2. Activate environment
-   source .venv/bin/activate  (Mac/Linux)
-   .venv\Scripts\Activate     (Windows)
+   source .venv/bin/activate (Mac/Linux)
+   .venv\Scripts\Activate (Windows)
 
 3. Install dependencies
    pip install -r requirements.txt
@@ -94,9 +93,10 @@ Prototype – Work in Progress
 
 ✔ Core pipeline implemented  
 ✔ Barcode reading functional  
-✔ Automated invoice retrieval working  
+✔ Automated invoice retrieval working
 
 Next Improvements:
+
 - Improve error handling
 - Add logging system
 - Add configuration file (.env support)

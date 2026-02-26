@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Receipt → Invoice Automation</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 0 16px; }
+    h1 { margin-bottom: 8px; }
+    .row { margin: 12px 0; }
+    label { display: inline-block; min-width: 90px; }
+    select, input[type="file"], button { padding: 8px; }
+    button { cursor: pointer; }
+    #result { margin-top: 18px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+    .muted { color: #666; font-size: 0.95em; }
+    .error { color: #b00020; }
+    .ok { color: #0b6b0b; }
+    ul { margin: 8px 0 0 20px; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Upload Receipts</h1>
+  <p class="muted">
+    Select a store, a profile (charged from <code>/profiles</code>), then send one or more receipt images.
+  </p>
+
+  <div class="row">
+    <label for="store">Store :</label>
+    <select id="store">
+      <option value="auchan">Auchan</option>
+      <option value="carrefour">Carrefour</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="profile">Profile :</label>
+    <select id="profile">
+      <option value="">Loading...</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="fileInput">Images :</label>
+    <input type="file" accept="image/*" id="fileInput" multiple />
+  </div>
+
+  <div class="row">
+    <button id="uploadBtn">Send</button>
+  </div>
+
+  <div id="result">
+    <span class="muted">Results here ...</span>
+  </div>
+
+  <script>
+    const API_BASE = window.location.origin;
+    const uploadBtn = document.getElementById("uploadBtn");
+    const fileInput = document.getElementById("fileInput");
+    const result = document.getElementById("result");
+    const profileSelect = document.getElementById("profile");
+
+    async function loadProfiles() {
+      try {
+        const res = await fetch(`${API_BASE}/profiles`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        const profiles = data.profiles || [];
+        profileSelect.innerHTML = "";
+
+        if (profiles.length === 0) {
+          profileSelect.innerHTML = `<option value="">No profiles found</option>`;
+          return;
+        }
+
+        for (const p of profiles) {
+          const opt = document.createElement("option");
+          opt.value = p;
+          opt.textContent = p;
+          profileSelect.appendChild(opt);
+        }
+      } catch (e) {
+        profileSelect.innerHTML = `<option value="">Error loading profiles</option>`;
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    loadProfiles();
+
+    uploadBtn.addEventListener("click", async () => {
+      if (!fileInput.files.length) {
+        alert("Choose at least one image !");
+        return;
+      }
+
+      const store = document.getElementById("store").value;
+      const profile = profileSelect.value;
+
+      if (!profile) {
+        alert("Choose a profile !");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("store", store);
+      formData.append("profile", profile);
+
+      for (let i = 0; i < fileInput.files.length; i++) {
+        formData.append("files", fileInput.files[i]);
+      }
+
+      result.innerHTML = `<span class="muted">Processing in progress ... (this may take time)</span>`;
+
+      try {
+        const response = await fetch(`${API_BASE}/upload`, {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          result.innerHTML = `<p class="error"><b>Error:</b> ${escapeHtml(JSON.stringify(data))}</p>`;
+          return;
+        }
+
+        const barcodes = (data.barcodes_found || []).map(escapeHtml);
+        const failedFiles = (data.failed_files || []).map(escapeHtml);
+        const mergedPdf = data.merged_pdf ? escapeHtml(data.merged_pdf) : "N/A";
+
+        result.innerHTML = `
+          <p class="ok"><b>OK</b> — Store: ${escapeHtml(store)}, Profile: ${escapeHtml(profile)}</p>
+          <p><b>Barcodes found:</b> ${barcodes.length ? barcodes.join(", ") : "None"}</p>
+          <p><b>Images without barcodes:</b> ${failedFiles.length ? failedFiles.join(", ") : "None"}</p>
+          <p><b>Merged PDF:</b> ${mergedPdf}</p>
+          <p>
+            <a href="${API_BASE}/download" target="_blank" rel="noopener noreferrer">
+              Download merged PDF
+            </a>
+          </p>
+        `;
+      } catch (error) {
+        result.innerHTML = `<p class="error"><b>Error:</b> ${escapeHtml(error)}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
