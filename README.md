@@ -1,21 +1,23 @@
-# Receipt to Invoice Automation System
+# Receipt → Invoice Automation
 
-End-to-end automation pipeline that converts receipt photos into downloadable invoices using barcode OCR and browser automation.
+End-to-end automation system that converts receipt images into downloadable invoices using barcode OCR and browser automation.
 
 ---
 
 ## Overview
 
-This project automates the process of retrieving invoices from retail web portals using receipt images.
+This project automates the retrieval of professional invoices from retail web portals (e.g., Auchan, Carrefour) based on receipt photos.
 
-Instead of manually logging in and searching for invoices, the system:
+Instead of manually:
 
-1. Takes one or multiple receipt photos as input
-2. Extracts the barcode using OCR
-3. Logs into the user’s online account via Selenium (ChromeDriver)
-4. Automatically retrieves and downloads the corresponding invoice
+- logging into the portal
+- entering receipt details
+- filling company information
+- downloading each invoice
 
-The goal is to reduce manual effort and demonstrate a real-world automation workflow.
+the system performs the full workflow automatically.
+
+It is designed as a practical demonstration of real-world automation using OCR + Selenium + API architecture.
 
 ---
 
@@ -43,33 +45,34 @@ The goal is to reduce manual effort and demonstrate a real-world automation work
 
 ## Tech Stack
 
-- Python
-- OCR / Barcode extraction
-- Selenium + ChromeDriver
-- File handling & automation scripting
-
----
-
-## Features
-
-- Barcode detection from receipt images
-- Automated browser login
-- Automated invoice retrieval
-- Multi-image support
-- Structured processing pipeline
+- **Python 3.11**
+- **FastAPI** (API layer)
+- **Selenium + undetected_chromedriver**
+- **pyzbar** (barcode decoding)
+- **Pillow** (image processing)
+- **pypdf / PyPDF2** (PDF merging)
+- **python-dotenv** (environment configuration)
 
 ---
 
 ## Project Structure
 
-project-root/  
-│  
-├── main.py  
-├── ocr_module.py  
-├── automation_module.py  
-├── utils.py  
-├── requirements.txt  
-└── README.md
+receipt-to-invoice-automation/   
+│   
+├── src/   
+│ ├── static/   
+│ │ └── web.html   
+│ ├── main.py   
+│ ├── autofill_Auchan.py   
+│ ├── autofill_Carrefour.py   
+│ ├── config.py   
+│ ├── profiles_loader.py   
+│ └── merge_pdf.py   
+│   
+├── profiles.example.json   
+├── .env.example   
+├── requirements.txt   
+└── README.md   
 
 ---
 
@@ -85,56 +88,52 @@ project-root/
 3. Install dependencies
    pip install -r requirements.txt
 
+4. Profile Configuration
+   create profile.json file by following the profile.example.json
+
+5. Environment Variables
+   copy .env.example → .env
+   change environment variables as needed
+
+6. Run the Application
+   uvicorn src.main:app --reload
+   
 ---
 
 ## Current Status
 
-Prototype – Work in Progress
+Prototype – Functional
 
-✔ Core pipeline implemented  
-✔ Barcode reading functional  
-✔ Automated invoice retrieval working
-
-Next Improvements:
-
-- Improve error handling
-- Add logging system
-- Add configuration file (.env support)
-- Dockerize the project
-- Add API wrapper (FastAPI)
+✔ FastAPI upload endpoint  
+✔ Barcode extraction working  
+✔ Automated form filling (Auchan / Carrefour)  
+✔ PDF download + merge  
 
 ---
 
-## Security & Privacy
+## Possible Improvements
 
-This project is a public technical demonstration.
-
-- No real credentials are stored in the repository
-- No private or commercial code is included
-- Users must provide their own credentials locally
+- Asynchronous job queue (non-blocking API)
+- Better logging and monitoring
+- Automatic Chrome version detection
+- Docker containerization
+- Unit testing for OCR + utilities
+- Retry strategy improvements
 
 ---
 
-## Why This Project Matters
+## What This Project Demonstrates
 
-This project demonstrates:
-
-- End-to-end automation thinking
+- End-to-end automation design
 - OCR integration in real workflows
-- Web automation using Selenium
-- Pipeline structuring and modular code design
-
----
-
-## Future Roadmap
-
-- Add structured metadata extraction
-- Improve robustness against low-quality images
-- Add performance benchmarks
+- Secure configuration management
+- Structured FastAPI backend
+- Browser automation engineering
+- Modular and reusable code architecture
 
 ---
 
 ## Author
 
 Kevin Lin  
-AI Engineer focused on efficient and deployable intelligent systems
+AI Engineer – Automation & Intelligent Systems  
